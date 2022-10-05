@@ -1,0 +1,93 @@
+<?php 
+  require_once "./head.php"; 
+?>
+	<style>
+		.h5 { border-bottom: solid;
+			  position: relative; }
+	</style>
+
+</head>
+
+<?php require_once "./module/header_set.php";?>
+
+<?php
+	if($_SERVER["REQUEST_METHOD"] == "POST")
+	{
+		$result = new CART();
+		$purch = $result->GetUserData($_POST["user_id"]);
+	}
+	else
+	{
+		header("Location: ./index.php");
+	}
+
+?>
+
+
+<body class="text-center">
+  <main>
+    <form action="payment_comp.php" method="POST">
+      <h1 class="h3 mb-3 fw-normal mt-3 border-bottom">購入手続き</h1>
+      
+      <div class="row justify-content-center">
+      	<div class="col-10">
+      		<p class="h5">お届け先</p>
+      		<p class="h6">お名前</p>
+      		<p><?= $purch[Bb_User_Name]; ?></p>
+      		
+      		<p class="h6">ふりがな</p>
+      		<p><?= $purch[Bb_User_Ruby]; ?></p>
+      		
+      		<p class="h6">郵便番号</p>
+      		<p><?= $purch[Bb_User_Post]; ?></p>
+      		
+      		<p class="h6">都道府県</p>
+      		<p><?= $purch[Bb_Pref_Name]; ?></p>
+      		
+      		<p class="h6">住所</p>
+      		<p><?= $purch[Bb_User_Add]; ?></p>
+      		
+      		<p class="h6">電話番号</p>
+      		<p><?= $purch[Bb_User_Tel]; ?></p>
+      		<br/>
+      		
+      		<p class="h5">お支払い方法</p>
+					<input type="hidden" name="user_id" value='<?= $purch[Bb_User_Id]; ?>'>
+      		<input type="radio" name="pay_id" value="1">クレジットカード
+					<input type="radio" name="pay_id" value="2" checked>振り込み
+      		<br/>
+
+      	</div>
+      </div>
+      
+      <div class="d-grid gap-2 col-5 mx-auto mt-5">
+				<input type="hidden" name="user_id" value='<?= $purch[Bb_User_Id]; ?>'>
+				<input type="hidden" name="deli_name" value='<?= $purch[Bb_User_Name]; ?>'>
+				<input type="hidden" name="deli_ruby" value='<?= $purch[Bb_User_Ruby]; ?>'>
+				<input type="hidden" name="deli_pref_id" value='<?= $purch[Bb_Pref_Id]; ?>'>
+				<input type="hidden" name="deli_add" value='<?= $purch[Bb_User_Add]; ?>'>
+				<input type="hidden" name="deli_post" value='<?= $purch[Bb_User_Post]; ?>'>
+				<input type="hidden" name="deli_tel" value='<?= $purch[Bb_User_Tel]; ?>'>
+
+				<input type="hidden" name="order_name" value='<?= $purch[Bb_User_Name]; ?>'>
+				<input type="hidden" name="order_ruby" value='<?= $purch[Bb_User_Ruby]; ?>'>
+				<input type="hidden" name="order_pref_id" value='<?= $purch[Bb_Pref_Id]; ?>'>
+				<input type="hidden" name="order_add" value='<?= $purch[Bb_User_Add]; ?>'>
+				<input type="hidden" name="order_post" value='<?= $purch[Bb_User_Post]; ?>'>
+				<input type="hidden" name="order_tel" value='<?= $purch[Bb_User_Post]; ?>'>
+				<input type="hidden" name="order_money" value='<?= $_POST["total"]; ?>'>
+				<div class="d-grid gap-2 col-10 mx-auto m-2">
+					<button class="btn btn-primary"  type="submit">購入</button>
+				</div>
+			</form>
+			<div class="d-grid gap-2 col-10 mx-auto m-2">
+  			<a class="btn btn-primary" type="button" href="login_cart.php">カートに戻る</a>
+			</div>
+  	</div>
+    <br/>
+  </main>
+</body>
+
+<?php require_once "./footer.php" ?>
+
+</html>
